@@ -2,7 +2,7 @@
 
 The HelloWorld contract was simple enough while i think i need to explain my intent with the Ballot contract.
 
-Of course i could have just used the global variable approach like you asked but i could not think of a way to start the count down for the for voting period that way.
+Of course i could have just used the global variable approach like you asked but i could not think of a way to start the count down for the voting period that way.
 
-So instead I just gave each voter a different `startTime` which is assigned to the current time of the block when a particular `voter(address)` is given the right to vote.
-It works well, so i think that's good enough. Thanks ^\_^
+So instead I just gave each voter a different `startTime` which is assigned as the current time of the block when a particular `voter(address)` is given the right to vote.
+It works well, so i think that's good enough. Thanks ^_^
