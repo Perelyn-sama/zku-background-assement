@@ -20,32 +20,53 @@ contract ContractTest is DSTest {
 
         ballot = new Ballot(proposalNames);
 
-        emit log_named_address("Deployer is", ballot.chairperson());
+        // emit log_named_address("Deployer is", ballot.chairperson());
 
-        for (uint256 i = 0; i < proposalNames.length; i++) {
-            emit log_bytes32(proposalNames[i]);
-        }
-
-        vm.warp(1);
+        // gets the bytes conversion of the strings
+        // for (uint256 i = 0; i < proposalNames.length; i++) {
+        //     emit log_bytes32(proposalNames[i]);
+        // }
     }
 
-    function testExample() public {
-        emit log_named_uint("The time is", block.timestamp);
-
+    // Check if voter can vote < 300 seconds after given the right to
+    function testVote() public {
+        // set block.timestamp to 0
+        vm.warp(0);
+        emit log_named_uint(
+            "Timestamp when addr1 is given right to vote",
+            block.timestamp
+        );
         ballot.giveRightToVote(addr1);
-        // log_named_uint("start time", ballot.voters(addr1).startTime);
 
+        // (uint256 startTime, uint256 vote) = ballot.getVoter(addr1);
+        // emit log_named_uint("this is start time", startTime);
+        // emit log_named_uint("this is vote", vote);
+
+        // set block.timestamp to 19
+        vm.warp(299);
+        emit log_named_uint("Timestamp when addr1 votes", block.timestamp);
         vm.prank(addr1);
-        // ballot.vote(1);
+        ballot.vote(0);
 
-        emit log_named_bytes32("The winner is", ballot.winnerName());
         emit log_named_uint("The winner is", ballot.winningProposal());
-        assertTrue(true);
+    }
+
+    // Check if voter can not vote > 300 seconds after given the right to
+    function testFailVote() public {
+        // set block.timestamp to 0
+        vm.warp(0);
+        emit log_named_uint(
+            "Timestamp when addr1 is given right to vote",
+            block.timestamp
+        );
+        ballot.giveRightToVote(addr1);
+
+        // set block.timestamp to 21
+        vm.warp(301);
+        emit log_named_uint("Timestamp when addr1 votes", block.timestamp);
+        vm.prank(addr1);
+        ballot.vote(0);
+
+        emit log_named_uint("The winner is", ballot.winningProposal());
     }
 }
-// 0x706572656c796e00000000000000000000000000000000000000000000000000
-// 0x706572656c796e00000000000000000000000000000000000000000000000000
-
-// ["0x706572656c796e00000000000000000000000000000000000000000000000000", "0x77696c6c00000000000000000000000000000000000000000000000000000000", " "0x6265000000000000000000000000000000000000000000000000000000000000"]
-
-// ["0x706572656c796e00000000000000000000000000000000000000000000000000"]
