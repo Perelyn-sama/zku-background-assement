@@ -26,6 +26,11 @@ contract Ballot {
     // stores a `Voter` struct for each possible address.
     mapping(address => Voter) public voters;
 
+    // Get voter's start time and vote
+    function getVoter(address addr) public view returns (uint256, uint256) {
+        return (voters[addr].startTime, voters[addr].vote);
+    }
+
     // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
 
@@ -34,12 +39,8 @@ contract Ballot {
 
     // modifier to check if voting time is over
     modifier voteEnded(address voter) {
-        // require(
-        //     block.timestamp <= voters[voter].startTime + 300,
-        //     "Your voting time has ended"
-        // );
         require(
-            block.timestamp <= voters[voter].startTime + 20,
+            block.timestamp <= voters[voter].startTime + 300,
             "Your voting time has ended"
         );
         _;
